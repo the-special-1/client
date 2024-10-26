@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import UserForm from './UserForm';
+import UserList from './UserList';
+import MyChatBot from './ChatBot';
+import Register from './register'; 
+import Login from './Login'; 
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(false);
+
+    const handleLogin = () => {
+        setIsLoggedIn(true);
+        setIsRegistering(false);
+    };
+
+    const handleRegister = () => {
+        setIsLoggedIn(true);
+        setIsRegistering(false);
+    };
+    return (
+        <div>
+            {!isLoggedIn ? (
+                <>
+                    {!isRegistering ? (
+                        <>
+                            <Login onLogin={handleLogin} />
+                            <p>Don't have an account? <button onClick={() => setIsRegistering(true)}>Register</button></p>
+                        </>
+                    ) : (
+                        <>
+                            <Register onRegister={handleRegister} />
+                            <p>Already have an account? <button onClick={() => setIsRegistering(false)}>Login</button></p>
+                        </>
+                    )}
+                </>
+            ) : (
+                <div>
+       <h1>User Information</h1>
+            <UserForm />
+            <UserList />
+            <MyChatBot />
+
+                </div> // Show chatbot if logged in
+            )}
+     
+        </div>
+    );
 }
 
 export default App;
