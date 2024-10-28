@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import Register from './register';
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isregistering, setisregistering] = useState(true);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +25,10 @@ const Login = ({ onLogin }) => {
             setError(err.message);
         }
     };
-
+const handleregister=()=>{
+    setisregistering(false);
+}
+if (isregistering){
     return (
         <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
@@ -52,8 +57,12 @@ const Login = ({ onLogin }) => {
                     Login
                 </button>
             </form>
+           <span>dont have an account yet? <button onClick={handleregister}>register</button></span>
         </div>
-    );
+    );}
+    else{
+        return <Register/>
+    }
 };
 
 export default Login;

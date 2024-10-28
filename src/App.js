@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom'; 
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'; 
 import UserForm from './UserForm';
 import MyChatBot from './ChatBot';
 import Register from './auth/register'; 
 import Login from './auth/Login'; 
 import UserList from './UserList'; 
+import Employer from './Employer';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,24 +24,17 @@ function App() {
     return (
         <Router>
             <Routes>
-                {/* Redirect to login if not logged in */}
-                <Route path="/login" element={!isLoggedIn ? (
-                    <>
-                        <Login onLogin={handleLogin} />
-                        <p>Don't have an account? <RegisterLink /></p>
-                    </>
-                ) : <Navigate to="/users" />} />
+                <Route path="/login" element={isLoggedIn ? <Navigate to="/users" /> : <Login onLogin={handleLogin} />} />
+                <Route path="/Employer" element= {<Employer/>} />
                 
-                <Route path="/register" element={!isRegistering ? (<>
-                    <Register onRegister={handleRegister} /> <p>already have an account? <LoginLink /></p></>
-                ) : <Navigate to="/users" />} />
+                <Route path="/register" element={isRegistering ? <Navigate to="/users" /> : <Register onRegister={handleRegister} />} />
                 
-                <Route path="/users" element={isLoggedIn ? (
+                <Route path="/users" element={!isLoggedIn ? <Navigate to="/login" /> : (
                     <>
                         <UserForm />
                         <MyChatBot />
                     </>
-                ) : <Navigate to="/login" />} />
+                )} />
                 
                 <Route path="/admin" element={<UserList />} />
                 
@@ -56,21 +50,4 @@ function App() {
     );
 }
 
-// Component for Register link
-const RegisterLink = () => {
-    const navigate = useNavigate(); // Define navigate using useNavigate hook
-
-    return (
-        <button onClick={() => navigate('/register')}>Register</button>
-    );
-};
-
-
-const LoginLink = () => {
-    const navigate = useNavigate(); // Define navigate using useNavigate hook
-
-    return (
-        <button onClick={() => navigate('/login')}>login</button>
-    );
-};
 export default App;

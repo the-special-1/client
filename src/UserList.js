@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import UserSearch from './userSearch';
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
@@ -11,6 +12,7 @@ const UserList = () => {
                 setUsers(response.data);
             } catch (error) {
                 console.error('Error fetching users:', error);
+                
             }
         };
         fetchUsers();
@@ -28,6 +30,8 @@ const UserList = () => {
                     </li>
                 ))}
             </ul>
+
+            <UserSearch/>
         </div>
     );
 };
